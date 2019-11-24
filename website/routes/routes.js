@@ -1,6 +1,6 @@
 var Particle = require('particle-api-js');
 var particle = new Particle();
-let token;
+let token = null;
 
 module.exports = function(app) {
 
@@ -9,12 +9,16 @@ module.exports = function(app) {
         // show the home page (will also have our login links)
         app.get('/', function(req, res) {
             console.log("index get");
-            res.render('index.ejs');
+            if (token == null)
+                res.render('index.ejs');
+            res.redirect('player');
         });
 
         app.get('/login', function(req, res) {
             console.log("login get");
-            res.render('login.ejs');
+            if (token == null)
+                res.render('login.ejs');
+            res.redirect('/player');
         });
 
         app.post('/login', function(req, res) {
@@ -22,7 +26,7 @@ module.exports = function(app) {
             particle.login({username: req.body['email'], password: req.body['password']}).then(
                 function(data) {
                     token = data.body.access_token;
-                    res.render('player.ejs');
+                    res.redirect('/player');
                 },
                 function (err) {
                     console.log('Could not log in.', err);
@@ -31,16 +35,21 @@ module.exports = function(app) {
             );
         });
 
-        app.post('/lightItUp', function(req, res) {
-            var fnPr = particle.callFunction({ deviceId: '510047001851353530333932', name: 'lightItUp', argument: '', auth: token });
-
-            fnPr.then(
-            function(data) {
-                console.log('Function called succesfully:', data);
-            }, function(err) {
-                console.log('An error occurred:', err);
+        app.get('/player', function(req, res) {
+            console.log("player get");
+            if (token == null)
+                res.render('login.ejs');
+            particle.getEventStream({ name: 'sendData', auth: token}).then(function(stream) {
+                stream.on('event', function(data) {
+                    console.log("Event: ", data);
+                });
             });
-
             res.render('player.ejs');
         });
+
+        app.get('*', function(req, res) {
+            if (token == null)
+                res.render('index.ejs');
+            res.redirect('player');
+        })
 }

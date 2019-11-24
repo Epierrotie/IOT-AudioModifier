@@ -5,25 +5,28 @@
  * Date:
  */
 
-int light = D2;
+#include "SparkFunMMA8452Q.h"
 
-// setup() runs once, when the device is first turned on.
+MMA8452Q accel;
+
 void setup() {
-  // Put initialization like pinMode and begin functions here.
-  pinMode(light, OUTPUT);
-  delay(50);
-  Particle.function("lightItUp", lightItUp);
+  Serial.begin(9600);
+
+  accel.begin(SCALE_2G, ODR_1);
 }
 
-int lightItUp(String extra)
-{
-  analogWrite(light, HIGH);
-  delay(1000);
-  analogWrite(light, LOW);
-  return (0);
-}
-
-// loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  // The core of your code will likely live here.
+  String str;
+
+    if (accel.available())
+    {
+        accel.read();
+
+      str = String(accel.cx, 2) + ":" + String(accel.cy, 2) + ":" + String(accel.cz, 2);
+      // Serial.println("X: " + String(accel.cx, 2) + ", Y: " + String(accel.cy, 2) + ", Z: " + String(accel.cz, 2));
+      Particle.publish("sendData", str);
+    }
+
+	// No need to delay, since our ODR is set to 1Hz, accel.available() will only return 1
+	// about once per second.
 }
