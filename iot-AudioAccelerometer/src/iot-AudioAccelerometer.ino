@@ -22,7 +22,7 @@ void loop() {
     {
         accel.read();
 
-      str = String(accel.cx, 2) + ":" + String(accel.cy, 2) + ":" + String(accel.cz, 2);
+      str = String(accel.cx, 4) + ":" + String(accel.cy, 4) + ":" + String(accel.cz, 4);
       // Serial.println("X: " + String(accel.cx, 2) + ", Y: " + String(accel.cy, 2) + ", Z: " + String(accel.cz, 2));
       Particle.publish("sendData", str);
     }
