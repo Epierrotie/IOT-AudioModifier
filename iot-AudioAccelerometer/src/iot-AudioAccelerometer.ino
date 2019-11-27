@@ -13,6 +13,12 @@ void setup() {
   Serial.begin(9600);
 
   accel.begin(SCALE_2G, ODR_1);
+  Particle.function("twitterPost", twitterPost);
+}
+
+int twitterPost(String title) {
+  Particle.publish("onSongChange", title);
+  return (0);
 }
 
 void loop() {

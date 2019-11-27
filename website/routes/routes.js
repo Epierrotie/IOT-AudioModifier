@@ -1,8 +1,6 @@
 var Particle = require('particle-api-js');
 var particle = new Particle();
 let token = null;
-let base = 0;
-let x, y, z;
 
 module.exports = function(app) {
 
@@ -41,20 +39,11 @@ module.exports = function(app) {
 
         app.get('/player', function(req, res) {
             console.log("player get");
+
             if (token == null)
                 res.render('login.ejs');
-            particle.getEventStream({ name: 'sendData', auth: token}).then(function(stream) {
-                stream.on('event', function(data) {
-                    let tmp = data["data"].split(':');
 
-                    x = tmp[0];
-                    y = tmp[1];
-                    z = tmp[2];
-
-                    console.log("Event: ", x, y, z);
-                });
-            });
-            res.render('player.ejs');
+            res.render('player.ejs', { token : token} );
         });
 
         app.get('*', function(req, res) {

@@ -1,16 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
     <title>Audio modifier</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"
+        integrity="sha256-q2vnVvwrx3RbYXPyAwx7c2npmULQg2VdCXBoJ5+iigs=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particle-api-js/8.0.0/particle.min.js" integrity="sha256-Ha170KM8rM46TtonADISVHe+v9QlwdpkLqsb+qhnm3s=" crossorigin="anonymous"></script>
+
+    <input name="" id="tokenHere" class="btn btn-primary" style="display: none" type="button" value="<%= token %>"></input>
+    <!-- <script>
+                console.log(">>>>>",test);
+
+        var test = <%= token.particle %>;
+    </script> -->
+    <script src="music.js"></script>
     <style>
-        body         { padding-top:80px; }
+        body {
+            padding-top: 80px;
+        }
     </style>
 </head>
+
 <body>
+    <h1><%= token.particle %></h1>
     <div class="jumbotron text-center">
         <h1>Player</h1>
     </div>
 </body>
+
 </html>

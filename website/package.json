@@ -12,6 +12,8 @@
   "dependencies": {
     "ejs": "^2.7.4",
     "express": "^4.17.1",
+    "hbs": "^4.0.6",
+    "howler": "^2.1.2",
     "particle-api-js": "^8.0.0"
   }
 }
