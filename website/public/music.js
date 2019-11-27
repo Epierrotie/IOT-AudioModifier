@@ -8,16 +8,13 @@ var sound = [
         src: ['SkyrimTheme.mp3'],
         volume: 0.5,
         onend: function() {
-            i = 1
             onMusicChange()
-
         }
     }),
     new Howl({
         src: ['luv.mp3'],
         volume: 0.5,
         onend: function() {
-            i = 2
             onMusicChange()
         }
     }),
@@ -25,7 +22,6 @@ var sound = [
         src: ['HaloTheme.mp3'],
         volume: 0.5,
         onend: function() {
-            i = 0
             onMusicChange()
         }
     }),
@@ -36,20 +32,28 @@ sound[0].play();
 
 particle.getEventStream({ name: 'sendData', auth: token}).then(function(stream) {
     stream.on('event', function(data) {
-        let tmp = data["data"].split(':');
+        if (data["data"] == 'stop') {
+            sound[i].stop();
+            onMusicChange();
+        } else {
+            let tmp = data["data"].split(':');
 
+            x = normalize(tmp[0], -1, 1)
+            sound[i].volume(x);
+            y = normalize(tmp[1], -1, 1) + 0.5;
+            sound[i].rate(y);
+            z = tmp[2];
 
-        x = normalize(tmp[0], -1, 1)
-        sound[i].volume(x);
-        y = normalize(tmp[1], -1, 1) + 0.5;
-        sound[i].rate(y);
-        z = tmp[2];
-
-        console.log("Event: ", x, y, z);
+            console.log("Event: ", x, y, z);
+        }
     });
 });
 
 function onMusicChange() {
+    if (i == 2)
+        i = 0;
+    else
+        i += 1;
     console.log(title[i], ' Finished!');
     sound[i].play();
     let fnPr = particle.callFunction({ deviceId: '510047001851353530333932', name: 'twitterPost', argument: title[i], auth: token });
