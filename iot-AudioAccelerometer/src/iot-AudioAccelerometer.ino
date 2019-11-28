@@ -43,6 +43,7 @@ void loop() {
 
   if (change == true) {
     Particle.publish("sendData", "stop");
+    delay(250);
     change = false;
   }
 
