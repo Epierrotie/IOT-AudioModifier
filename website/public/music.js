@@ -1,7 +1,7 @@
 let particle = new Particle();
 let token = document.getElementById('tokenHere').value;
 let i = 0
-let title = ['Skyrim Theme', 'Luv resval', 'Halo Theme']
+let title = ['Skyrim Theme', 'Haddaway - What is love', 'Diggy diggy hole', 'Pizza kid - We like pizza']
 
 var sound = [
     new Howl({
@@ -19,7 +19,14 @@ var sound = [
         }
     }),
     new Howl({
-        src: ['HaloTheme.mp3'],
+        src: ['Diggy.mp3'],
+        volume: 0.5,
+        onend: function() {
+            onMusicChange()
+        }
+    }),
+    new Howl({
+        src: ['pizza.mp3'],
         volume: 0.5,
         onend: function() {
             onMusicChange()
@@ -50,7 +57,7 @@ particle.getEventStream({ name: 'sendData', auth: token}).then(function(stream) 
 });
 
 function onMusicChange() {
-    if (i == 2)
+    if (i == 3)
         i = 0;
     else
         i += 1;
